@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinodrop</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #1a1a2e;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #16213e;
+            border-top: 4px solid #0088cc;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        p {
+            font-size: 16px;
+            color: #a0a0a0;
+        }
+        a {
+            margin-top: 15px;
+            color: #0088cc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
+    <p>Открываем...</p>
+    <a id="fallback" href="#">Нажмите, если не открылось</a>
+    
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const url = params.get('url');
+        
+        if (url) {
+            const decodedUrl = decodeURIComponent(url);
+            document.getElementById('fallback').href = decodedUrl;
+            
+            // Пробуем открыть
+            window.location.href = decodedUrl;
+            
+            // Если не сработало за 2 секунды - покажем ссылку
+            setTimeout(() => {
+                document.getElementById('fallback').style.display = 'block';
+            }, 2000);
+        } else {
+            document.body.innerHTML = '<p style="color: #a0a0a0;">Неверная ссылка</p>';
+        }
+    </script>
+</body>
+</html>
