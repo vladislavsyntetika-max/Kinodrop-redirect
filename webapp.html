@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinodrop</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            text-align: center;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #0088cc;
+        }
+        .subtitle {
+            color: #a0a0a0;
+            margin-bottom: 30px;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            margin: 10px 0;
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .button:active {
+            transform: scale(0.98);
+        }
+        .button.secondary {
+            background: #2d3748;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 Kinodrop</h1>
+        <p class="subtitle">Открываем...</p>
+        <div id="buttons"></div>
+    </div>
+    
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+        
+        const params = new URLSearchParams(window.location.search);
+        const trailerUrl = params.get('trailer');
+        const kinopoiskUrl = params.get('kinopoisk');
+        
+        const buttonsDiv = document.getElementById('buttons');
+        
+        if (trailerUrl) {
+            buttonsDiv.innerHTML += `<a href="${decodeURIComponent(trailerUrl)}" target="_blank" class="button">▶️ Смотреть трейлер</a>`;
+        }
+        if (kinopoiskUrl) {
+            buttonsDiv.innerHTML += `<a href="${decodeURIComponent(kinopoiskUrl)}" target="_blank" class="button secondary"> Где смотреть</a>`;
+        }
+        
+        setTimeout(() => {
+            if (trailerUrl) window.location.href = decodeURIComponent(trailerUrl);
+        }, 1500);
+    </script>
+</body>
+</html>
